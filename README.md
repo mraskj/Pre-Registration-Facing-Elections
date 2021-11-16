@@ -92,18 +92,18 @@ returns the weights of the best epoch.
 
 ### Grid Search
 To select the optimal set of hyperparameters, we conducted grid search over the space, iterating the process five times:
-![Image](hyperparameters.png)
+![Image](plots/hyperparameters.png)
 giving a total of 54 model combinations for female candidates and 36 for male candidates. We did not search over
 1e-04 for men as we discovered that the model ended up predicting the majority class each time. 
 
 We obtained the following results:
 
 **Men**:
-![Image](gridsearch-men.jpg)
+![Image](plots/gridsearch-men.jpg)
 
 
 **Women** (we only show the top 36 results to match the male plot):
-![Image](gridsearch-women.jpg)
+![Image](plots/gridsearch-women.jpg)
 
 The code used to create the plots can be found in `R/gridsearch-analysis.R`. 
 
