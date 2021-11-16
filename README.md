@@ -16,10 +16,12 @@ Thus, we upload all our files to the repo before 8pm 2021. This can easily be ve
 version control. 
 
 Unfortunately, GitHub does not allow for large data files. Therefore, we can not upload
-Our 220.6 MB CNNs. Instead, we have created a Dropbox link to our models, which
-we leave unchanged after 8pm November 16 2021. This can easily be verified looking at
-the timestamps and version history for each file. Note that `CNN_men.hdf5` and 
-`CNN_women.hdf5` is the main models. See the section on **Model Selection**. 
+Our 220.6 MB CNNs. Instead, we have both created a pre-registered project at OSF and
+created a Dropbox link. We leave both of them unchanged after 8pm November 16 2021.
+This can easily be verified looking at the timestamps and version history for 
+each file. Note that `CNN_men.hdf5` and `CNN_women.hdf5` is the main models. 
+
+OSF link: https://osf.io/bdwf6/
 
 Dropbox link: https://www.dropbox.com/sh/ti4k4k38b09y1cp/AAA9AcJFfDE4P9CTuPG24xrZa?dl=0
 
