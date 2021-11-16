@@ -25,6 +25,8 @@ LINK XX.
 The repository contains the following folders and files:
 * `utils/preprocessing` (folder with utils)
 * `utils/analysis` (folder with utils)
+* `scripts/validation` (folder with scripts used to validate our CNNs)
+* `scripts/hypothesis` (folder with scripts used to test pur hypotheses)
 * `plots` (folder with plots)
 * `model` (folder with model performance)
 * `R` (folder with R scripts)
@@ -56,6 +58,12 @@ select the optimal model.
 Finally, after conducting the grid search, we use the hyperparameters to select our final models
 in `02a_2017_models_men.py` and `02b_2017_models_women.py`. See links to OSF in top 
 of the *README.md*.
+
+The `scripts` folder contains unfinished `.py`-scripts that we will use to test some
+of our hypotheses in `MAIN-pre-reg-facing-elections.pdf` and to validate our CNNs. 
+The scripts are taken from another project we have been working on and is therefore not adapted to this
+application. Consequently, there will be differences in the final scripts we use,
+but the general approach is the same. 
 
 The `model` folder contains two `.csv` files with a dataframe containing information
 about the model performance (e.g. training and validation accuracy). 
