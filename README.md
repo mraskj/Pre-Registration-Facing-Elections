@@ -16,10 +16,16 @@ Thus, we upload all our files to the repo before 8pm 2021. This can easily be ve
 version control. 
 
 Unfortunately, GitHub does not allow for large data files. Therefore, we can not upload
-Our 220.6 MB CNNs. Instead, we have uploaded our models to OSF before 8pm as well. 
-The OSF project contains two models, one for male and one for female candidates:
-LINK XX. 
- 
+Our 220.6 MB CNNs. Instead, we have created a Dropbox link to our models, which
+we leave unchanged after 8pm November 16 2021. This can easily be verified looking at
+the timestamps and version history for each file. Note that `CNN_men.hdf5` and 
+`CNN_women.hdf5` is the main models. See the section on **Model Selection**. 
+
+Dropbox link: https://www.dropbox.com/sh/ti4k4k38b09y1cp/AAA9AcJFfDE4P9CTuPG24xrZa?dl=0
+
+Link to CNN for male candidates: https://www.dropbox.com/sh/qyxrrafipdsn7pk/AABFH6Cec10NUMPLl5_nFmaza?dl=0
+
+Link to CNN for female candidates: https://www.dropbox.com/sh/nr599138edb6dtc/AAB7aI4n-0sY0tM7VX5JpO77a?dl=0
 
 ## Repository content
 The repository contains the following folders and files:
@@ -50,20 +56,23 @@ training and analysis of our CNN approach. The functions are used in the main sc
 
 The `00_image-cleaning.py` script conducts all of our image preprocessing. Please note 
 that `00_image-cleaning.py` requires a file called `shape_predictor_68_face_landmarks.dat`. This is not uploaded on
-GitHub due to file size issues, but can be obtained freely at [Dlib](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2]).    
+GitHub due to file size issues, but can be obtained freely at [`Dlib`](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2]).    
 
 The `01_gridsearch.py` script conducts a grid search over a space of hyperparameters to
 select the optimal model. 
 
 Finally, after conducting the grid search, we use the hyperparameters to select our final models
-in `02a_2017_models_men.py` and `02b_2017_models_women.py`. See links to OSF in top 
-of the *README.md*.
+in `02a_2017_models_men.py` and `02b_2017_models_women.py`. See links to models stored
+on Dropbox in top of the *README.md*.
 
 The `scripts` folder contains unfinished `.py`-scripts that we will use to test some
 of our hypotheses in `MAIN-pre-reg-facing-elections.pdf` and to validate our CNNs. 
 The scripts are taken from another project we have been working on and is therefore not adapted to this
-application. Consequently, there will be differences in the final scripts we use,
-but the general approach is the same. 
+application. We have not added a script for the facial expression hypothesis yet (H2), 
+but we intend to use Azure's API and validate the measures with 
+[`Py-Feat`](https://py-feat.org/). As the scripts are unfinished, 
+there will be differences in the final scripts we use, but we intend to stick with 
+the general approach put forward in the scripts. 
 
 The `model` folder contains two `.csv` files with a dataframe containing information
 about the model performance (e.g. training and validation accuracy). 
@@ -185,7 +194,7 @@ prior class probabilities. Our overall distribution in the 2017 data is:
 |  **Women** |  893 (61.3%) |  563 (38.7%)  |
 |  **Men**   | 2133 (65.8%) | 1110 (34.2%)|
 
-The prior class distributions are computed in `R/2017_priordist.R`. 
+The prior class distributions are computed in `R/prior_class_prob.R`. 
 
 
 ### Image Augmentation
@@ -241,34 +250,49 @@ Here, we report the model performance on the 2017 images. we report the balanced
 accuracy as this takes the imbalance into account. We start by plotting the model performance
 for both male and females over the 20 iterations: 
 
-Clearly, the distributions show that we face a bunching issue around 50%. This justifies our 
-"soft selection" approach to model selection. Below, we report the balanced validation accuracy
-and the 0-1 loss for each model.  
+![Image](plots/model_performance.jpg)
 
+The distributions clearly show that we have fat tails around 50% for both male and 
+female candidates. This supports our notion that a "soft selection" procedure for model
+selection are likely to achieve better generalization in a single application, although 
+it does not matter in expectation (i.e. the expected value is the same whether we
+use hard or soft selection). 
+
+Below we show a table with different estimates of the generalization error across 
+different models. Recall that we use the models at the 50th percentile (i.e. the median)
+for both male and female candidates. We have marked their respective estimates of their
+generalization error in **bold**. 
+ 
 |         | Men      | Women  |
 | ------------- |:-------------:| :-----:|
-| Training: 0-1 loss (average) | 54.2% | 0.3095 |
-| Training: Balanced accuracy (average) | 54.2% | 67.27% |
-| Training: Balanced accuracy (1st percentile) | 54.2% | 58.77% |
-| Training: Balanced accuracy (50th percentile) | 54.2% | 67.97% |
-| **Training: Balanced accuracy (80th percentile)** | **54.2%** | **69.86%** |
-| Training: Balanced accuracy (100th percentile) | 54.2% | 72.12% |
-| Validation: 0-1 loss (average) |  53.1% | 0.3006  |
-| Validation: Balanced accuracy (average) |  53.1% | 67.42%|
-| Validation: Balanced accuracy (1st percentile)|  53.1% | 61.02%  |
-| Validation: Balanced accuracy (50th percentile)|  53.1% | 68.16%  |
-| **Validation: Balanced accuracy (80th percentile)**|  **53.1%** | **70.98%**  |
-| Validation: Balanced accuracy (100th percentile)|  53.1% | 71.88%  |
-| Test: Accuracy |  2021 data |   2021 data  |
-| Test: Balanced accuracy |  2021 data  |  2021 data   |
+| *Training*|  |   |
+| **0-1 loss (50th percentile)** | **0.383** | **0.314** |
+| **Balanced accuracy (50th percentile)** | **59.83%** | **66.36%** |
+| Balanced accuracy (1st percentile) | 53.12% | 51.44% |
+| Balanced accuracy (100th percentile) | 68.78% | 73.25%|
+| 0-1 loss (average) | 0.389 | 0.332 |
+| Balanced accuracy (average) | 58.35% | 63.77% |
+| *Validation*|  |   |
+| **0-1 loss (50th percentile)** |**0.369** |**0.327** |
+| **Balanced accuracy (50th percentile)** | **58.48%** | **63.27%** |
+| Balanced accuracy (1st percentile)|  51.19% | 51.40%|
+| Balanced accuracy (100th percentile)| 70.44%  |  68.26% |
+| 0-1 loss (average) | 0.358 |  0.327 |
+| Balanced accuracy (average) | 58.00%  | 62.45%|
 
-We have marked our main model selection approach in **bold**. 
+We note that the validation balanced accuracy somewhat resembles the output for 
+the grid search, in particular for men. For the CNN for men, our grid search returned an average of
+59.84% (5 iterations) compared to 58.00% (20 iterations) in our model selection. 
+For the CNN for women, the difference is a little larger. Our grid search returned an 
+average of 71.41% (5 iterations) compared to 62.45% (20 iterations) in our model selection. 
 
-We note that the validation balanced accuracy somewhat resembles the output for the grid search.
+We briefly note that our initial estimates supports H1 and H3 in `MAIN-pre-reg-facing-elections.pdf`.
+We have not tested the other hypotheses yet. 
 
 The code used to produce the balanced training and validation accuracies (and 0-1 loss)
-can be found in `R/performance.R` while the data used in the code is found in the 
-`model` folder (`model/men_performance.csv` and `model/men_performance.csv` respectively).
+can be found in `R/model-performance.R` while the data used in the code is found in the 
+`model` folder (`model/model-performance_men.csv` and `model/model-performance_women.csv` respectively).
+You also find the code and data used to produce the density plot in the same script and data files. 
 
 ## Requirements
 The code is implemented using `Python version 3.8`. A full list of requirements with specific package versions
