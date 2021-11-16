@@ -1,0 +1,13 @@
+numpy==1.19.2
+pandas==1.1.5
+matplotlib==3.4.2
+dlib==19.22.0
+opencv-python==4.5.3.56
+tensorflow==2.5.0
+keras==2.4.3
+scikit-image==0.18.2
+imutils==0.5.4
+sklearn==0.0
+numba==0.53.1
+imbalanced-learn==0.8.0
+seaborn==0.11.2
